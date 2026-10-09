@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
+
+<title>Something I Couldn't Say</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont,
+                     "Segoe UI", sans-serif;
+        background: #0d0d12;
+        color: white;
+    }
+
+    /* =========================
+       SLIDESHOW CONTAINER
+       ========================= */
+
+    .slideshow {
+        width: 100%;
+        height: 100dvh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .slide {
+        position: absolute;
+        inset: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding: 35px 25px;
+
+        text-align: center;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transform: scale(1.03);
+
+        transition:
+            opacity 0.8s ease,
+            transform 0.8s ease,
+            visibility 0.8s;
+    }
+
+    .slide.active {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+
+    /* =========================
+       BACKGROUNDS
+       ========================= */
+
+    .slide:nth-child(1) {
+        background:
+            radial-gradient(circle at 50% 40%,
+            #292338 0%,
+            #13121a 45%,
+            #08080c 100%);
+    }
+
+    .slide:nth-child(2) {
+        background:
+            radial-gradient(circle at 30% 30%,
+            #302530,
+            #151218 50%,
+            #08080c);
+    }
+
+    .slide:nth-child(3) {
+        background:
+            radial-gradient(circle at 70% 40%,
+            #29243b,
+            #12111a 55%,
+            #08080c);
+    }
+
+    .slide:nth-child(4) {
+        background:
+            radial-gradient(circle at 40% 30%,
+            #39252d,
+            #151116 55%,
+            #08080c);
+    }
+
+    .slide:nth-child(5) {
+        background:
+            radial-gradient(circle at 50% 30%,
+            #2c293d,
+            #111016 55%,
+            #08080c);
+    }
+
+    .slide:nth-child(6) {
+        background:
+            radial-gradient(circle at 50% 40%,
+            #3b2734,
+            #151016 55%,
+            #07070a);
+    }
+
+    /* =========================
+       TEXT
+       ========================= */
+
+    .small-text {
+        font-size: 14px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        opacity: 0.55;
+        margin-bottom: 22px;
+    }
+
+    h1 {
+        font-size: clamp(36px, 10vw, 65px);
+        font-weight: 500;
+        line-height: 1.15;
+        letter-spacing: -1px;
+        max-width: 700px;
+    }
+
+    h2 {
+        font-size: clamp(27px, 7vw, 45px);
+        font-weight: 500;
+        line-height: 1.25;
+        max-width: 650px;
+    }
+
+    p {
+        margin-top: 25px;
+        max-width: 600px;
+        font-size: clamp(17px, 4.5vw, 21px);
+        line-height: 1.7;
+        color: rgba(255,255,255,0.72);
+    }
+
+    .highlight {
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    /* =========================
+       IMAGE AREA
+       ========================= */
+
+ .photo {
+    width: min(88vw, 600px);
+    aspect-ratio: 16 / 9;
+    height: auto;
+    padding: 0;
+    overflow: hidden;
+}
+
+.photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+    margin-bottom: 30px;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(135deg,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.02));
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+    .photo-placeholder {
+        padding: 20px;
+        color: rgba(255,255,255,0.35);
+        font-size: 14px;
+    }
+    .final-video {
+    position: relative;
+    width: min(88vw, 700px);
+    aspect-ratio: 16 / 9;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.final-video video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 14px 28px;
+    border: none;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.9);
+    color: #111;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    /* =========================
+       HEART
+       ========================= */
+
+    .heart {
+        font-size: 48px;
+        margin-bottom: 25px;
+
+        animation:
+            heartbeat 2s infinite ease-in-out;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.12);
+        }
+    }
+
+    /* =========================
+       NAVIGATION
+       ========================= */
+
+    .navigation {
+        position: fixed;
+        bottom: 25px;
+        left: 0;
+        right: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        gap: 14px;
+
+        z-index: 100;
+    }
+
+    .nav-btn {
+        width: 46px;
+        height: 46px;
+
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.15);
+
+        background: rgba(255,255,255,0.06);
+
+        color: white;
+
+        font-size: 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+
+        backdrop-filter: blur(10px);
+
+        transition: 0.25s;
+    }
+
+    .nav-btn:active {
+        transform: scale(0.88);
+        background: rgba(255,255,255,0.15);
+    }
+
+    /* =========================
+       DOTS
+       ========================= */
+
+    .dots {
+        position: fixed;
+        top: 22px;
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        display: flex;
+        gap: 7px;
+
+        z-index: 100;
+    }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,0.25);
+
+        transition: 0.3s;
+    }
+
+    .dot.active {
+        width: 22px;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.85);
+    }
+
+    /* =========================
+       PAGE NUMBER
+       ========================= */
+
+    .page-number {
+        position: fixed;
+        right: 20px;
+        top: 20px;
+
+        font-size: 12px;
+        opacity: 0.35;
+
+        z-index: 100;
+    }
+
+    /* =========================
+       FADE-IN CONTENT
+       ========================= */
+
+    .slide.active h1,
+    .slide.active h2,
+    .slide.active p,
+    .slide.active .photo,
+    .slide.active .heart,
+    .slide.active .small-text {
+
+        animation: contentFade 1s ease forwards;
+    }
+
+    @keyframes contentFade {
+
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* =========================
+       MOBILE OPTIMIZATION
+       ========================= */
+
+    @media (max-width: 600px) {
+
+        .slide {
+            padding:
+                55px 24px
+                90px 24px;
+        }
+
+        h1 {
+            font-size: 39px;
+        }
+
+        h2 {
+            font-size: 29px;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.65;
+        }
+
+        .photo {
+    width: 88vw;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: none;
+}
+
+        .navigation {
+            bottom: 18px;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+</style>
+</head>
+
+
+<body>
+
+<div class="slideshow">
+
+    <!-- =========================
+         SLIDE 1
+         ========================= -->
+
+    <section class="slide active">
+
+        <div class="small-text">
+            okay so i dont know how to start this
+        </div>
+
+        <h1>
+            So uh I'll just start.
+        </h1>
+
+        <p>
+            THIS IS SO SO RANDOM NGL 
+            AND YEAH THIS ONE IS BETTER THAN THE PREVIOUS ONE.
+            
+           Tbh, I don't have enough courage to say this in chat, that's why I made this stupid... wtv this is.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SLIDE 2
+         ========================= -->
+
+    <section class="slide">
+
+        <div class="photo">
+    <img src="images/she.jpg" alt="Aliya">
+</div>
+
+        <h2>
+            I WAS 'STARING' AT THIS PICTURE FOR 3 WHOLE MINUTES
+        </h2>
+
+    </section>
+
+
+    <!-- =========================
+         SLIDE 3
+         ========================= -->
+
+    <section class="slide">
+
+        <div class="small-text">
+            cuz honestly... 
+        </div>
+
+        <h2>
+            I miss YOU okay syfm now .
+        </h2>
+
+        <p>
+           I jus took a 5 min break from a quick revision video of physics (ofc pehela hi chapter cuz mujhe kuch nahi ata). I was listening to 'we fell in love in october' in my 5 min ka break.
+            I inserted my pendrive to take a look at some old important files which i wanted to share with my friend. I was scrolling and i found a random folder named 
+            'lily' which i made 1.5 years ago to keep your pictures in it. Breakup ke baad to sare delete kar diye but I kept one picture which you sent me for the first time. 
+            I opened it and saw your picture. MERI FAVV PIC IT WAS. THAT SONG IN THE BACKGROUND AND YOUR PICTURE OMFG WHAT A COMBO. I wont lie, that song always reminds me of you. 
+        I miss those days so much. 10th and 11th was so so PEAKK. I think I forgot to mention today's date, it's 6th Oct 2026. 
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SLIDE 4
+         ========================= -->
+
+    <section class="slide">
+
+        <div class="photo">
+
+            <!-- Replace with your second picture -->
+
+            <div class="photo">
+    <img src="images/int3.png" alt="A memory">
+</div>
+
+        </div>
+
+        <h2>
+            I didnt realize how much
+            I'd miss having you around.
+        </h2>
+
+    </section>
+
+
+    <!-- =========================
+         SLIDE 5
+         ========================= -->
+
+    <section class="slide">
+
+        <div class="small-text">
+            Idk how to put it into words😭😭
+        </div>
+
+        <h2>
+            And I don't really know
+            how to explain it.
+        </h2>
+
+        <p>
+           If you know, I once told you that I never cried for anyone, not even over stupid friendships. The guy you saw in the previous slide was me. I was at my native place with that bike for a photoshoot.
+I WAS CRYING (or, to be more specific, whimpering). I don’t even remember the last time I cried. I was missing you so much. That was the first time I cried for a person, and that person was you. I don’t even know what happened to me, but yeah, I actually cried for you that day.
+I also found out that I cry like a literal kid. After a while, I stopped near a footpath just to see how I looked. 
+I LOOKED LIKE A KID WHO LOST HIS MOM IN A FAIR OR SMTH 💔💔. ok i gotta stop cuz its getting real corny now.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SLIDE 6
+         ========================= -->
+
+    <section class="slide">
+
+        <div class="heart">
+            ♡
+        </div>
+
+        <h1>
+            I miss my Aliya OKAY.
+        </h1>
+
+        <p>
+            well uh that's really all I wanted to say.
+            <br><br>
+            I really can't pretend it anymore and I can't act tuff either 
+            
+            
+        </p>
+
+    </section>   <!-- Slide 6 ends here -->
+
+
+<!-- =========================
+     SLIDE 7 — FINAL VIDEO
+     ========================= -->
+
+<section class="slide">
+
+    <div class="final-video">
+        <video
+            id="finalVideo"
+            src="images/wazd.mp4"
+            muted
+            loop
+            playsinline>
+        </video>
+    </div>
+
+    <p class="final-message">
+        💔💔✌️
+        CHAL HATT BE BAUNI ok bye now. 
+        AND PLS MUJHE BLOCK KARDE 
+    </p>
+
+</section>
+
+
+    <!-- =========================
+         DOTS
+         ========================= -->
+
+    <div class="dots">
+
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+
+    </div>
+
+
+    <!-- PAGE NUMBER -->
+
+    <div class="page-number">
+        <span id="pageNumber">01</span> / 06
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <button
+            class="nav-btn"
+            id="prev">
+            ‹
+        </button>
+
+        <button
+            class="nav-btn"
+            id="next">
+            ›
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       SLIDESHOW
+       ========================= */
+
+    const slides =
+        document.querySelectorAll(".slide");
+
+    const dots =
+        document.querySelectorAll(".dot");
+
+    const pageNumber =
+        document.getElementById("pageNumber");
+
+    const nextButton =
+        document.getElementById("next");
+
+    const prevButton =
+        document.getElementById("prev");
+
+
+    let currentSlide = 0;
+
+
+    /* =========================
+       SHOW SLIDE
+       ========================= */
+
+    function showSlide(index) {
+
+        if (index < 0) {
+            index = slides.length - 1;
+        }
+
+        if (index >= slides.length) {
+            index = 0;
+        }
+
+        currentSlide = index;
+        if (currentSlide === 6) {
+    const video = document.getElementById("finalVideo");
+
+    video.muted = false;
+
+    video.play().catch(() => {
+        video.muted = true;
+        video.play();
+    });
+}
+
+
+        slides.forEach((slide, i) => {
+
+            slide.classList.toggle(
+                "active",
+                i === currentSlide
+            );
+
+        });
+
+
+        dots.forEach((dot, i) => {
+
+            dot.classList.toggle(
+                "active",
+                i === currentSlide
+            );
+
+        });
+
+
+        pageNumber.textContent =
+            String(currentSlide + 1)
+            .padStart(2, "0");
+    }
+    function playFinalVideo() {
+    const video = document.getElementById("finalVideo");
+
+    video.muted = false;
+
+    video.play().catch(() => {
+        video.muted = true;
+        video.play();
+    });
+}
+
+
+    /* =========================
+       BUTTONS
+       ========================= */
+
+    nextButton.addEventListener(
+        "click",
+        () => {
+            showSlide(currentSlide + 1);
+        }
+    );
+
+
+    prevButton.addEventListener(
+        "click",
+        () => {
+            showSlide(currentSlide - 1);
+        }
+    );
+
+
+    /* =========================
+       DOT NAVIGATION
+       ========================= */
+
+    dots.forEach((dot, index) => {
+
+        dot.addEventListener(
+            "click",
+            () => {
+                showSlide(index);
+            }
+        );
+
+    });
+
+
+    /* =========================
+       KEYBOARD
+       ========================= */
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (event.key === "ArrowRight") {
+                showSlide(currentSlide + 1);
+            }
+
+            if (event.key === "ArrowLeft") {
+                showSlide(currentSlide - 1);
+            }
+
+        }
+    );
+
+
+    /* =========================
+       MOBILE SWIPE
+       ========================= */
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+
+    document.addEventListener(
+        "touchstart",
+        (event) => {
+
+            touchStartX =
+                event.changedTouches[0].screenX;
+
+        },
+        { passive: true }
+    );
+
+
+    document.addEventListener(
+        "touchend",
+        (event) => {
+
+            touchEndX =
+                event.changedTouches[0].screenX;
+
+            handleSwipe();
+
+        },
+        { passive: true }
+    );
+
+
+    function handleSwipe() {
+
+        const difference =
+            touchStartX - touchEndX;
+
+
+        /* Minimum swipe distance */
+
+        if (Math.abs(difference) < 50) {
+            return;
+        }
+
+
+        if (difference > 0) {
+
+            // Swipe left → next
+            showSlide(currentSlide + 1);
+
+        } else {
+
+            // Swipe right → previous
+            showSlide(currentSlide - 1);
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
